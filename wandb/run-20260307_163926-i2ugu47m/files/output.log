@@ -1,0 +1,84 @@
+16:39:30  INFO
+════════════════════════════════════════════════════════════
+16:39:30  INFO    STEP 1 — Loading Dataset
+16:39:30  INFO  ════════════════════════════════════════════════════════════
+16:39:30  INFO  Loading IEEE-CIS Fraud Detection Dataset...
+16:39:45  INFO    Transactions: 590540, Fraud rate: 3.499%
+16:39:51  INFO    Graph: 604022 nodes, 1181080 edges | Fraud: 20663 (3.42%) | Legit: 569877 | Train/Val/Test: 413378/88581/88581
+16:39:52  INFO
+════════════════════════════════════════════════════════════
+16:39:52  INFO    STEP 3 — Graph EDA
+16:39:52  INFO  ════════════════════════════════════════════════════════════
+16:39:52  INFO  Running graph EDA...
+
+───────────────────────────────────────────────────────
+  GRAPH STATISTICS
+───────────────────────────────────────────────────────
+  num_nodes           : 604022
+  num_edges           : 1181080
+  avg_degree          : 1.955
+  max_degree          : 1.489e+04
+  num_fraud           : 20663
+  num_legit           : 569877
+  num_unknown         : 13482
+  fraud_ratio         : 0.03499
+  density             : 3.237e-06
+───────────────────────────────────────────────────────
+16:39:53  INFO    Saved: degree_distribution.png
+16:39:54  INFO    Saved: feature_distributions.png
+16:39:55  INFO    Saved: class_imbalance.png
+16:39:55  INFO    Graph has 604022 nodes; sampling 2000-node subgraph for NetworkX analysis.
+
+
+  NetworkX Stats (sampled subgraph):
+    num_nodes                : 2000
+    num_edges                : 3934
+    num_components           : 33
+    largest_component        : 805
+    avg_clustering           : 0
+    density                  : 0.000984
+16:39:56  INFO    Saved: degree_centrality.png
+16:39:56  INFO  EDA complete. Plots saved to outputs/
+16:39:56  INFO
+════════════════════════════════════════════════════════════
+16:39:56  INFO    STEP 4 & 5 — Build Model + Train
+16:39:56  INFO  ════════════════════════════════════════════════════════════
+16:39:56  INFO  Loading IEEE-CIS Fraud Detection Dataset...
+16:40:10  INFO    Transactions: 590540, Fraud rate: 3.499%
+16:40:18  INFO    Graph: 604022 nodes, 1181080 edges | Fraud: 20663 (3.42%) | Legit: 569877 | Train/Val/Test: 413378/88581/88581
+16:40:19  INFO  Device: cpu
+
+  Model: GRAPHSAGE
+  Parameters: 194,114
+  Layers: 3
+  Hidden dim: 128
+  Dropout: 0.3
+16:40:19  INFO  Class weights → legit: 0.52, fraud: 14.29
+16:40:19  INFO  Using weighted loss: [0.5181292295455933, 14.289892196655273]
+16:40:19  INFO  Imbalance strategy: weighted_loss | Oversampling: False
+16:40:19  INFO
+Starting training for 150 epochs...
+16:40:19  INFO  ─────────────────────────────────────────────────────────────────
+16:41:05  INFO  Epoch    1 | Loss: 0.4924 | F1: 0.2327 | Prec: 0.1387 | Rec: 0.7219 | AUC: 0.8595
+16:46:38  INFO  Epoch   10 | Loss: 0.3972 | F1: 0.2809 | Prec: 0.1717 | Rec: 0.7726 | AUC: 0.8976
+16:52:44  INFO  Epoch   20 | Loss: 0.3657 | F1: 0.3078 | Prec: 0.1924 | Rec: 0.7684 | AUC: 0.9081
+17:00:41  INFO  Epoch   30 | Loss: 0.3429 | F1: 0.3502 | Prec: 0.2275 | Rec: 0.7606 | AUC: 0.9129
+Traceback (most recent call last):
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\run_pipeline.py", line 140, in <module>
+    main()
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\run_pipeline.py", line 104, in main
+    model, data, history = train(CFG)
+                           ^^^^^^^^^^
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\train.py", line 324, in train
+    train_loss  = train_one_epoch(model, train_loader, optimizer, criterion, device)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\train.py", line 165, in train_one_epoch
+    loss.backward()
+  File "C:\Users\APPSQUADZ\anaconda3\envs\venv\Lib\site-packages\torch\_tensor.py", line 626, in backward
+    torch.autograd.backward(
+  File "C:\Users\APPSQUADZ\anaconda3\envs\venv\Lib\site-packages\torch\autograd\__init__.py", line 347, in backward
+    _engine_run_backward(
+  File "C:\Users\APPSQUADZ\anaconda3\envs\venv\Lib\site-packages\torch\autograd\graph.py", line 823, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

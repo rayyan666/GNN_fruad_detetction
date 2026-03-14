@@ -1,0 +1,72 @@
+_wandb:
+    value:
+        cli_version: 0.25.1
+        e:
+            ftl701gt1q0wvguy688vj4uby2sii25j:
+                args:
+                    - --dataset
+                    - elliptic
+                    - --model
+                    - graphsage
+                    - --strategy
+                    - weighted_loss
+                    - --epochs
+                    - "150"
+                codePath: run_pipeline.py
+                codePathLocal: run_pipeline.py
+                cpu_count: 10
+                cpu_count_logical: 12
+                disk:
+                    /:
+                        total: "511115784192"
+                        used: "221861224448"
+                email: rayyanakbar0208@gmail.com
+                executable: C:\Users\APPSQUADZ\anaconda3\envs\venv\python.exe
+                host: APP-LAP-RAYYAN
+                memory:
+                    total: "34025402368"
+                os: Windows-10-10.0.26200-SP0
+                program: C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\run_pipeline.py
+                python: CPython 3.11.0
+                root: C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection
+                startedAt: "2026-03-14T09:37:42.566948Z"
+                writerId: ftl701gt1q0wvguy688vj4uby2sii25j
+        m: []
+        python_version: 3.11.0
+        t:
+            "1":
+                - 1
+                - 5
+                - 53
+                - 77
+                - 100
+            "2":
+                - 1
+                - 5
+                - 53
+                - 77
+                - 100
+            "3":
+                - 2
+                - 13
+                - 16
+            "4": 3.11.0
+            "5": 0.25.1
+            "8":
+                - 3
+            "12": 0.25.1
+            "13": windows-amd64
+dataset:
+    value: elliptic
+epochs:
+    value: 150
+hidden:
+    value: 128
+layers:
+    value: 3
+lr:
+    value: 0.001
+model:
+    value: graphsage
+strategy:
+    value: weighted_loss

@@ -1,0 +1,2 @@
+node_idx,p_fraud,true_label,feature_1_name,feature_1_imp,feature_2_name,feature_2_imp,feature_3_name,feature_3_imp,feature_4_name,feature_4_imp,feature_5_name,feature_5_imp,feature_6_name,feature_6_imp,feature_7_name,feature_7_imp,feature_8_name,feature_8_imp,feature_9_name,feature_9_imp,feature_10_name,feature_10_imp
+112753,1.0,1,local_90,1.0,local_89,0.9823,local_78,0.9471,local_62,0.9042,agg_00,0.9019,agg_58,0.8992,agg_57,0.8966,local_82,0.8956,agg_41,0.8888,agg_26,0.8744

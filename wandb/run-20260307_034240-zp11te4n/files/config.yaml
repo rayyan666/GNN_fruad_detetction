@@ -1,0 +1,69 @@
+_wandb:
+    value:
+        cli_version: 0.25.0
+        e:
+            b76qqsb8fnu3wq75w875wxvg0sk6quq9:
+                args:
+                    - --quick
+                codePath: run_pipeline.py
+                codePathLocal: run_pipeline.py
+                cpu_count: 10
+                cpu_count_logical: 12
+                disk:
+                    /:
+                        total: "511115784192"
+                        used: "206893887488"
+                email: rayyanakbar0208@gmail.com
+                executable: C:\Users\APPSQUADZ\anaconda3\envs\venv\python.exe
+                host: APP-LAP-RAYYAN
+                memory:
+                    total: "34025402368"
+                os: Windows-10-10.0.26200-SP0
+                program: C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\run_pipeline.py
+                python: CPython 3.11.0
+                root: C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection
+                startedAt: "2026-03-06T22:12:40.017983Z"
+                writerId: b76qqsb8fnu3wq75w875wxvg0sk6quq9
+        m: []
+        python_version: 3.11.0
+        t:
+            "1":
+                - 1
+                - 5
+                - 53
+                - 77
+                - 100
+            "2":
+                - 1
+                - 5
+                - 53
+                - 77
+                - 100
+            "3":
+                - 2
+                - 13
+                - 16
+            "4": 3.11.0
+            "5": 0.25.0
+            "8":
+                - 3
+            "12": 0.25.0
+            "13": windows-amd64
+batch_size:
+    value: 512
+dataset:
+    value: elliptic
+dropout:
+    value: 0.3
+epochs:
+    value: 20
+hidden:
+    value: 64
+layers:
+    value: 3
+lr:
+    value: 0.001
+model:
+    value: graphsage
+strategy:
+    value: weighted_loss

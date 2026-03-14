@@ -1,0 +1,98 @@
+_wandb:
+    value:
+        cli_version: 0.25.1
+        e:
+            og98gucnbb4eqlxtvwkhjebzlvbhwhet:
+                args:
+                    - --dataset
+                    - elliptic
+                    - --model
+                    - graphsage
+                    - --strategy
+                    - weighted_loss
+                    - --epochs
+                    - "150"
+                    - --local-features-only
+                codePath: run_pipeline.py
+                codePathLocal: run_pipeline.py
+                cpu_count: 10
+                cpu_count_logical: 12
+                disk:
+                    /:
+                        total: "511115784192"
+                        used: "219242942464"
+                email: rayyanakbar0208@gmail.com
+                executable: C:\Users\APPSQUADZ\anaconda3\envs\venv\python.exe
+                host: APP-LAP-RAYYAN
+                memory:
+                    total: "34025402368"
+                os: Windows-10-10.0.26200-SP0
+                program: C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\run_pipeline.py
+                python: CPython 3.11.0
+                root: C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection
+                startedAt: "2026-03-14T10:25:50.881932Z"
+                writerId: og98gucnbb4eqlxtvwkhjebzlvbhwhet
+        m: []
+        python_version: 3.11.0
+        t:
+            "1":
+                - 1
+                - 5
+                - 53
+                - 77
+                - 100
+            "2":
+                - 1
+                - 5
+                - 53
+                - 77
+                - 100
+            "3":
+                - 2
+                - 13
+                - 16
+            "4": 3.11.0
+            "5": 0.25.1
+            "8":
+                - 3
+            "12": 0.25.1
+            "13": windows-amd64
+batch_size:
+    value: 512
+dataset:
+    value: elliptic
+dropout:
+    value: 0.3
+epochs:
+    value: 150
+fraud_rate:
+    value: 0.09760759025812149
+hidden_channels:
+    value: 128
+local_features_only:
+    value: true
+lr:
+    value: 0.001
+model:
+    value: graphsage
+num_edges:
+    value: 234355
+num_features:
+    value: 94
+num_layers:
+    value: 3
+num_neighbors:
+    value:
+        - 10
+        - 5
+        - 5
+num_nodes:
+    value: 203769
+patience:
+    value: 20
+seed:
+    value: 42
+strategy:
+    value: weighted_loss
+weight_decay:
+    value: 0.0005

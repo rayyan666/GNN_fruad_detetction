@@ -212,3 +212,11 @@ marimo/_static/
 *.log
 marimo/_lsp/
 __marimo__/
+
+
+data/raw/
+wandb/
+outputs/
+*.pt
+__pycache__/
+venv/

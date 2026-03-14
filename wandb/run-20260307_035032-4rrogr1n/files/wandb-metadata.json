@@ -1,0 +1,27 @@
+{
+  "os":  "Windows-10-10.0.26200-SP0",
+  "python":  "CPython 3.11.0",
+  "startedAt":  "2026-03-06T22:20:32.928857Z",
+  "args":  [
+    "--quick"
+  ],
+  "program":  "C:\\Users\\APPSQUADZ\\Documents\\rayyan\\Rayyan_projects\\GNN_fraud_detection\\run_pipeline.py",
+  "codePath":  "run_pipeline.py",
+  "codePathLocal":  "run_pipeline.py",
+  "email":  "rayyanakbar0208@gmail.com",
+  "root":  "C:\\Users\\APPSQUADZ\\Documents\\rayyan\\Rayyan_projects\\GNN_fraud_detection",
+  "host":  "APP-LAP-RAYYAN",
+  "executable":  "C:\\Users\\APPSQUADZ\\anaconda3\\envs\\venv\\python.exe",
+  "cpu_count":  10,
+  "cpu_count_logical":  12,
+  "disk":  {
+    "/":  {
+      "total":  "511115784192",
+      "used":  "206898053120"
+    }
+  },
+  "memory":  {
+    "total":  "34025402368"
+  },
+  "writerId":  "mg4cz7urbqy5fqxkgo9ib20g6maa5vld"
+}

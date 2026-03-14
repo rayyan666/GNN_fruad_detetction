@@ -1,0 +1,157 @@
+16:10:17  INFO
+════════════════════════════════════════════════════════════
+16:10:17  INFO    STEP 1 — Loading Dataset
+16:10:17  INFO  ════════════════════════════════════════════════════════════
+16:10:17  INFO  Loading Elliptic Bitcoin Dataset...
+16:10:20  INFO    Nodes: 203769, Edges: 234355, Labelled: 46564
+16:10:21  INFO    Graph: 203769 nodes, 234355 edges | Fraud: 4545 (2.23%) | Legit: 42019 | Train/Val/Test: 32594/6985/6985
+16:10:21  INFO
+════════════════════════════════════════════════════════════
+16:10:21  INFO    STEP 3 — Graph EDA
+16:10:21  INFO  ════════════════════════════════════════════════════════════
+16:10:21  INFO  Running graph EDA...
+
+───────────────────────────────────────────────────────
+  GRAPH STATISTICS
+───────────────────────────────────────────────────────
+  num_nodes           : 203769
+  num_edges           : 234355
+  avg_degree          : 1.15
+  max_degree          : 472
+  num_fraud           : 4545
+  num_legit           : 42019
+  num_unknown         : 157205
+  fraud_ratio         : 0.09761
+  density             : 5.644e-06
+───────────────────────────────────────────────────────
+16:10:22  INFO    Saved: degree_distribution.png
+16:10:24  INFO    Saved: feature_distributions.png
+16:10:24  INFO    Saved: class_imbalance.png
+16:10:24  INFO    Graph has 203769 nodes; sampling 2000-node subgraph for NetworkX analysis.
+
+
+  NetworkX Stats (sampled subgraph):
+    num_nodes                : 133
+    num_edges                : 98
+    num_components           : 35
+    largest_component        : 30
+    avg_clustering           : 0
+    density                  : 0.005582
+16:10:25  INFO    Saved: degree_centrality.png
+16:10:25  INFO    Saved: temporal_fraud_rate.png
+16:10:25  INFO  EDA complete. Plots saved to outputs/
+16:10:25  INFO
+════════════════════════════════════════════════════════════
+16:10:25  INFO    STEP 4 & 5 — Build Model + Train
+16:10:25  INFO  ════════════════════════════════════════════════════════════
+16:10:25  INFO  Loading Elliptic Bitcoin Dataset...
+16:10:30  INFO    Nodes: 203769, Edges: 234355, Labelled: 46564
+16:10:31  INFO    Graph: 203769 nodes, 234355 edges | Fraud: 4545 (2.23%) | Legit: 42019 | Train/Val/Test: 32594/6985/6985
+16:10:31  INFO  Device: cpu
+
+  Model: GAT
+  Parameters: 426,306
+  Layers: 3
+  Hidden dim: 128
+  Dropout: 0.3
+16:10:31  INFO  Class weights → legit: 0.55, fraud: 5.12
+16:10:31  INFO  Using weighted loss: [0.5540747046470642, 5.123231887817383]
+16:10:31  INFO  Imbalance strategy: weighted_loss | Oversampling: False
+16:10:31  INFO
+Starting training for 150 epochs...
+16:10:31  INFO  ─────────────────────────────────────────────────────────────────
+16:10:37  INFO  Epoch    1 | Loss: 0.5344 | F1: 0.3784 | Prec: 0.2379 | Rec: 0.9238 | AUC: 0.9130
+16:11:29  INFO  Epoch   10 | Loss: 0.3536 | F1: 0.5818 | Prec: 0.4288 | Rec: 0.9047 | AUC: 0.9610
+16:12:34  INFO  Epoch   20 | Loss: 0.3163 | F1: 0.6381 | Prec: 0.4924 | Rec: 0.9062 | AUC: 0.9698
+16:13:42  INFO  Epoch   30 | Loss: 0.3091 | F1: 0.6360 | Prec: 0.4882 | Rec: 0.9120 | AUC: 0.9688
+16:14:52  INFO  Epoch   40 | Loss: 0.2885 | F1: 0.6780 | Prec: 0.5411 | Rec: 0.9076 | AUC: 0.9736
+16:15:58  INFO  Epoch   50 | Loss: 0.2838 | F1: 0.6939 | Prec: 0.5605 | Rec: 0.9106 | AUC: 0.9763
+16:17:04  INFO  Epoch   60 | Loss: 0.2808 | F1: 0.6954 | Prec: 0.5625 | Rec: 0.9106 | AUC: 0.9765
+16:18:08  INFO  Epoch   70 | Loss: 0.2767 | F1: 0.7170 | Prec: 0.5907 | Rec: 0.9120 | AUC: 0.9784
+16:19:18  INFO  Epoch   80 | Loss: 0.2505 | F1: 0.7514 | Prec: 0.6395 | Rec: 0.9106 | AUC: 0.9799
+16:19:58  INFO
+Early stopping at epoch 86 (best val F1=0.7605)
+16:19:58  INFO    Restored best model (val F1 = 0.7605)
+16:19:58  INFO  Saved checkpoint: outputs\best_model.pt
+16:19:58  INFO
+Training complete.
+16:19:58  INFO    Best val F1:  0.7605
+16:19:58  INFO
+════════════════════════════════════════════════════════════
+16:19:58  INFO    STEP 6 — Evaluation
+16:19:58  INFO  ════════════════════════════════════════════════════════════
+16:19:59  INFO  Optimal threshold: 0.89 (val F1=0.8353)
+
+
+════════════════════════════════════════════════════════════
+  FRAUD DETECTION — TEST SET EVALUATION
+════════════════════════════════════════════════════════════
+
+  Threshold = 0.50 (default):
+    precision      : 0.6894
+    recall         : 0.9047
+    f1             : 0.7825
+    auc_roc        : 0.9817
+    auc_pr         : 0.9149
+
+  Threshold = 0.89 (optimised for F1):
+    precision      : 0.8898
+    recall         : 0.8050
+    f1             : 0.8453
+    auc_roc        : 0.9817
+    auc_pr         : 0.9149
+
+  Full Classification Report (optimised threshold):
+              precision    recall  f1-score   support
+
+       Legit       0.98      0.99      0.98      6303
+       Fraud       0.89      0.80      0.85       682
+
+    accuracy                           0.97      6985
+   macro avg       0.93      0.90      0.91      6985
+weighted avg       0.97      0.97      0.97      6985
+
+════════════════════════════════════════════════════════════
+16:20:00  INFO  Saved: roc_pr_curves.png
+16:20:00  INFO  Saved: confusion_matrix.png
+16:20:01  INFO  Saved: threshold_sweep.png
+16:20:02  INFO  Saved: training_history.png
+16:20:02  INFO
+════════════════════════════════════════════════════════════
+16:20:02  INFO    STEP 7 — Visualizations
+16:20:02  INFO  ════════════════════════════════════════════════════════════
+16:20:02  INFO
+Generating visualizations...
+16:20:14  INFO  Building 2-hop subgraph around 5 fraud seeds...
+16:20:14  INFO    Subgraph: 7 nodes, 5 edges
+16:20:14  INFO  Saved: fraud_subgraph.png
+16:20:14  INFO  Running t-SNE on 3000 node embeddings...
+16:20:28  INFO  Saved: embedding_tsne.png
+16:20:41  INFO  Saved: fraud_heatmap.png
+16:20:42  INFO
+All visualizations saved to: outputs/
+16:20:42  INFO
+════════════════════════════════════════════════════════════
+16:20:42  INFO    PIPELINE COMPLETE
+16:20:42  INFO  ════════════════════════════════════════════════════════════
+16:20:42  INFO    Model:    GAT
+16:20:42  INFO    Dataset:  elliptic
+16:20:42  INFO    Strategy: weighted_loss
+16:20:42  INFO    Outputs:  outputs/
+16:20:42  INFO
+  Generated files:
+16:20:42  INFO      best_model.pt
+16:20:42  INFO      class_imbalance.png
+16:20:42  INFO      confusion_matrix.png
+16:20:42  INFO      degree_centrality.png
+16:20:42  INFO      degree_distribution.png
+16:20:42  INFO      embedding_tsne.png
+16:20:42  INFO      eval_results.json
+16:20:42  INFO      feature_distributions.png
+16:20:42  INFO      fraud_heatmap.png
+16:20:42  INFO      fraud_subgraph.png
+16:20:42  INFO      history.json
+16:20:42  INFO      roc_pr_curves.png
+16:20:42  INFO      temporal_fraud_rate.png
+16:20:42  INFO      threshold_sweep.png
+16:20:42  INFO      training_history.png

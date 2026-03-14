@@ -1,0 +1,157 @@
+11:10:00  INFO
+════════════════════════════════════════════════════════════
+11:10:00  INFO    STEP 1 — Loading Dataset
+11:10:00  INFO  ════════════════════════════════════════════════════════════
+11:10:00  INFO  Loading IEEE-CIS Fraud Detection Dataset...
+11:10:12  INFO    Transactions: 590540, Fraud rate: 3.499%
+11:10:21  INFO    Graph: 604022 nodes, 1181080 edges | Fraud: 20663 (3.42%) | Legit: 569877 | Train/Val/Test: 413378/88581/88581
+11:10:22  INFO
+════════════════════════════════════════════════════════════
+11:10:22  INFO    STEP 3 — Graph EDA
+11:10:22  INFO  ════════════════════════════════════════════════════════════
+11:10:22  INFO  Running graph EDA...
+
+───────────────────────────────────────────────────────
+  GRAPH STATISTICS
+───────────────────────────────────────────────────────
+  num_nodes           : 604022
+  num_edges           : 1181080
+  avg_degree          : 1.955
+  max_degree          : 1.489e+04
+  num_fraud           : 20663
+  num_legit           : 569877
+  num_unknown         : 13482
+  fraud_ratio         : 0.03499
+  density             : 3.237e-06
+───────────────────────────────────────────────────────
+11:10:23  INFO    Saved: degree_distribution.png
+11:10:26  INFO    Saved: feature_distributions.png
+11:10:26  INFO    Saved: class_imbalance.png
+11:10:26  INFO    Graph has 604022 nodes; sampling 2000-node subgraph for NetworkX analysis.
+
+
+  NetworkX Stats (sampled subgraph):
+    num_nodes                : 2000
+    num_edges                : 3934
+    num_components           : 33
+    largest_component        : 805
+    avg_clustering           : 0
+    density                  : 0.000984
+11:10:28  INFO    Saved: degree_centrality.png
+11:10:28  INFO  EDA complete. Plots saved to outputs/
+11:10:28  INFO
+════════════════════════════════════════════════════════════
+11:10:28  INFO    STEP 4 & 5 — Build Model + Train
+11:10:28  INFO  ════════════════════════════════════════════════════════════
+11:10:28  INFO  Loading IEEE-CIS Fraud Detection Dataset...
+11:10:42  INFO    Transactions: 590540, Fraud rate: 3.499%
+11:10:50  INFO    Graph: 604022 nodes, 1181080 edges | Fraud: 20663 (3.42%) | Legit: 569877 | Train/Val/Test: 413378/88581/88581
+11:10:50  INFO  Device: cpu
+
+  Model: GRAPHSAGE
+  Parameters: 194,114
+  Layers: 3
+  Hidden dim: 128
+  Dropout: 0.3
+11:10:50  INFO  Class weights → legit: 0.52, fraud: 14.29
+11:10:50  INFO  Using weighted loss: [0.5181292295455933, 14.289892196655273]
+11:10:50  INFO  Imbalance strategy: weighted_loss | Oversampling: False
+11:10:50  INFO
+Starting training for 150 epochs...
+11:10:50  INFO  ─────────────────────────────────────────────────────────────────
+11:11:41  INFO  Epoch    1 | Loss: 0.4924 | F1: 0.2327 | Prec: 0.1387 | Rec: 0.7219 | AUC: 0.8595
+11:19:06  INFO  Epoch   10 | Loss: 0.3972 | F1: 0.2809 | Prec: 0.1717 | Rec: 0.7726 | AUC: 0.8976
+11:27:21  INFO  Epoch   20 | Loss: 0.3657 | F1: 0.3078 | Prec: 0.1924 | Rec: 0.7684 | AUC: 0.9081
+11:35:44  INFO  Epoch   30 | Loss: 0.3429 | F1: 0.3502 | Prec: 0.2275 | Rec: 0.7606 | AUC: 0.9129
+11:53:48  INFO  Epoch   40 | Loss: 0.3285 | F1: 0.3287 | Prec: 0.2077 | Rec: 0.7871 | AUC: 0.9153
+12:06:35  INFO  Epoch   50 | Loss: 0.3188 | F1: 0.3636 | Prec: 0.2380 | Rec: 0.7697 | AUC: 0.9167
+12:16:21  INFO  Epoch   60 | Loss: 0.3117 | F1: 0.3506 | Prec: 0.2260 | Rec: 0.7823 | AUC: 0.9190
+12:24:50  INFO  Epoch   70 | Loss: 0.2880 | F1: 0.4106 | Prec: 0.2818 | Rec: 0.7558 | AUC: 0.9207
+12:34:41  INFO  Epoch   80 | Loss: 0.2831 | F1: 0.3831 | Prec: 0.2557 | Rec: 0.7639 | AUC: 0.9195
+12:44:09  INFO  Epoch   90 | Loss: 0.2722 | F1: 0.4071 | Prec: 0.2767 | Rec: 0.7700 | AUC: 0.9228
+12:46:12  INFO
+Early stopping at epoch 92 (best val F1=0.4126)
+12:46:12  INFO    Restored best model (val F1 = 0.4126)
+12:46:12  INFO  Saved checkpoint: outputs\best_model.pt
+12:46:12  INFO
+Training complete.
+12:46:12  INFO    Best val F1:  0.4126
+12:46:12  INFO
+════════════════════════════════════════════════════════════
+12:46:12  INFO    STEP 6 — Evaluation
+12:46:12  INFO  ════════════════════════════════════════════════════════════
+12:46:15  INFO  Optimal threshold: 0.89 (val F1=0.6189)
+
+
+════════════════════════════════════════════════════════════
+  FRAUD DETECTION — TEST SET EVALUATION
+════════════════════════════════════════════════════════════
+
+  Threshold = 0.50 (default):
+    precision      : 0.2925
+    recall         : 0.7635
+    f1             : 0.4230
+    auc_roc        : 0.9274
+    auc_pr         : 0.6647
+
+  Threshold = 0.89 (optimised for F1):
+    precision      : 0.7273
+    recall         : 0.5637
+    f1             : 0.6352
+    auc_roc        : 0.9274
+    auc_pr         : 0.6647
+
+  Full Classification Report (optimised threshold):
+              precision    recall  f1-score   support
+
+       Legit       0.98      0.99      0.99     85482
+       Fraud       0.73      0.56      0.64      3099
+
+    accuracy                           0.98     88581
+   macro avg       0.86      0.78      0.81     88581
+weighted avg       0.98      0.98      0.98     88581
+
+════════════════════════════════════════════════════════════
+12:46:18  INFO  Saved: roc_pr_curves.png
+12:46:19  INFO  Saved: confusion_matrix.png
+12:46:20  INFO  Saved: threshold_sweep.png
+12:46:20  INFO  Saved: training_history.png
+12:46:22  INFO
+════════════════════════════════════════════════════════════
+12:46:22  INFO    STEP 7 — Visualizations
+12:46:22  INFO  ════════════════════════════════════════════════════════════
+12:46:22  INFO
+Generating visualizations...
+12:46:43  INFO  Building 2-hop subgraph around 5 fraud seeds...
+12:46:43  INFO    Subgraph: 2204 nodes, 4398 edges
+12:47:06  INFO  Saved: fraud_subgraph.png
+12:47:06  INFO  Running t-SNE on 3000 node embeddings...
+12:47:21  INFO  Saved: embedding_tsne.png
+12:47:42  INFO  Saved: fraud_heatmap.png
+12:47:42  INFO
+All visualizations saved to: outputs/
+12:47:42  INFO
+════════════════════════════════════════════════════════════
+12:47:42  INFO    PIPELINE COMPLETE
+12:47:42  INFO  ════════════════════════════════════════════════════════════
+12:47:42  INFO    Model:    GRAPHSAGE
+12:47:42  INFO    Dataset:  ieee_cis
+12:47:42  INFO    Strategy: weighted_loss
+12:47:42  INFO    Outputs:  outputs/
+12:47:42  INFO
+  Generated files:
+12:47:42  INFO      best_model.pt
+12:47:42  INFO      class_imbalance.png
+12:47:42  INFO      confusion_matrix.png
+12:47:42  INFO      degree_centrality.png
+12:47:42  INFO      degree_distribution.png
+12:47:42  INFO      embedding_tsne.png
+12:47:42  INFO      eval_results.json
+12:47:42  INFO      feature_distributions.png
+12:47:42  INFO      fraud_heatmap.png
+12:47:42  INFO      fraud_subgraph.png
+12:47:42  INFO      history.json
+12:47:42  INFO      roc_pr_curves.png
+12:47:42  INFO      temporal_fraud_rate.png
+12:47:42  INFO      threshold_sweep.png
+12:47:42  INFO      training_history.png

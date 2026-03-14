@@ -1,0 +1,18 @@
+
+  Model: GRAPHSAGE
+  Parameters: 44,322
+  Layers: 3
+  Hidden dim: 64
+  Dropout: 0.3
+03:35:25  INFO  Class weights → legit: 0.55, fraud: 5.12
+03:35:25  INFO  Using weighted loss: [0.5540747046470642, 5.123231887817383]
+Traceback (most recent call last):
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\run_pipeline.py", line 123, in <module>
+    main()
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\run_pipeline.py", line 89, in main
+    model, data, history = train(CFG)
+                           ^^^^^^^^^^
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\train.py", line 307, in train
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ReduceLROnPlateau.__init__() got an unexpected keyword argument 'verbose'

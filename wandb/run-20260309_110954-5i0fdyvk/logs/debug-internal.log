@@ -1,0 +1,20 @@
+{"time":"2026-03-09T11:09:56.9687807+05:30","level":"INFO","msg":"stream: starting","core version":"0.25.0"}
+{"time":"2026-03-09T11:09:59.339654+05:30","level":"INFO","msg":"stream: created new stream","id":"5i0fdyvk"}
+{"time":"2026-03-09T11:09:59.3401574+05:30","level":"INFO","msg":"handler: started","stream_id":"5i0fdyvk"}
+{"time":"2026-03-09T11:09:59.3466443+05:30","level":"INFO","msg":"stream: started","id":"5i0fdyvk"}
+{"time":"2026-03-09T11:09:59.3471736+05:30","level":"INFO","msg":"writer: started","stream_id":"5i0fdyvk"}
+{"time":"2026-03-09T11:09:59.3471736+05:30","level":"INFO","msg":"sender: started","stream_id":"5i0fdyvk"}
+{"time":"2026-03-09T11:11:50.0038822+05:30","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/rayyanakbar0208-/fraud-gnn/5i0fdyvk/file_stream\": read tcp 172.16.4.170:57603->35.186.228.49:443: wsarecv: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."}
+{"time":"2026-03-09T11:12:04.0810698+05:30","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/rayyanakbar0208-/fraud-gnn/5i0fdyvk/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2026-03-09T11:41:59.112696+05:30","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/rayyanakbar0208-/fraud-gnn/5i0fdyvk/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2026-03-09T11:42:01.4221943+05:30","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/rayyanakbar0208-/fraud-gnn/5i0fdyvk/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2026-03-09T11:50:14.4995625+05:30","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/rayyanakbar0208-/fraud-gnn/5i0fdyvk/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2026-03-09T12:04:42.2008816+05:30","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/rayyanakbar0208-/fraud-gnn/5i0fdyvk/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2026-03-09T12:04:44.6503115+05:30","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/rayyanakbar0208-/fraud-gnn/5i0fdyvk/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2026-03-09T12:06:01.89056+05:30","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/rayyanakbar0208-/fraud-gnn/5i0fdyvk/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2026-03-09T12:47:45.5906867+05:30","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2026-03-09T12:47:46.2915687+05:30","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2026-03-09T12:47:46.3007638+05:30","level":"INFO","msg":"stream: closing","id":"5i0fdyvk"}
+{"time":"2026-03-09T12:47:46.3007638+05:30","level":"INFO","msg":"handler: closed","stream_id":"5i0fdyvk"}
+{"time":"2026-03-09T12:47:46.3012858+05:30","level":"INFO","msg":"sender: closed","stream_id":"5i0fdyvk"}
+{"time":"2026-03-09T12:47:46.3012858+05:30","level":"INFO","msg":"stream: closed","id":"5i0fdyvk"}

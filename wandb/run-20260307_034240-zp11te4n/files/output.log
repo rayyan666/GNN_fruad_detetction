@@ -1,0 +1,20 @@
+
+  Model: GRAPHSAGE
+  Parameters: 44,322
+  Layers: 3
+  Hidden dim: 64
+  Dropout: 0.3
+03:42:43  INFO  Class weights → legit: 0.55, fraud: 5.12
+03:42:43  INFO  Using weighted loss: [0.5540747046470642, 5.123231887817383]
+03:42:43  INFO  Imbalance strategy: weighted_loss | Oversampling: False
+03:42:43  INFO
+Starting training for 20 epochs...
+03:42:43  INFO  ─────────────────────────────────────────────────────────────────
+03:42:45  INFO  Epoch    1 | Loss: 0.4558 | F1: 0.5364 | Prec: 0.3847 | Rec: 0.8856 | AUC: 0.9503
+03:43:09  INFO  Epoch   10 | Loss: 0.1480 | F1: 0.7618 | Prec: 0.6627 | Rec: 0.8959 | AUC: 0.9810
+03:43:30  INFO  Epoch   20 | Loss: 0.1125 | F1: 0.8037 | Prec: 0.7316 | Rec: 0.8915 | AUC: 0.9836
+03:43:30  INFO    Restored best model (val F1 = 0.8037)
+03:43:30  INFO  Saved checkpoint: outputs\best_model.pt
+03:43:30  INFO
+Training complete.
+03:43:30  INFO    Best val F1:  0.8037

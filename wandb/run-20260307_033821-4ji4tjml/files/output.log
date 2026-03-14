@@ -1,0 +1,44 @@
+
+  Model: GRAPHSAGE
+  Parameters: 44,322
+  Layers: 3
+  Hidden dim: 64
+  Dropout: 0.3
+03:38:24  INFO  Class weights → legit: 0.55, fraud: 5.12
+03:38:24  INFO  Using weighted loss: [0.5540747046470642, 5.123231887817383]
+03:38:24  INFO  Imbalance strategy: weighted_loss | Oversampling: False
+03:38:24  INFO
+Starting training for 20 epochs...
+03:38:24  INFO  ─────────────────────────────────────────────────────────────────
+Traceback (most recent call last):
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\run_pipeline.py", line 123, in <module>
+    main()
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\run_pipeline.py", line 89, in main
+    model, data, history = train(CFG)
+                           ^^^^^^^^^^
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\train.py", line 340, in train
+    train_loss  = train_one_epoch(model, train_loader, optimizer, criterion, device)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\train.py", line 147, in train_one_epoch
+    for batch in loader:
+  File "C:\Users\APPSQUADZ\anaconda3\envs\venv\Lib\site-packages\torch\utils\data\dataloader.py", line 741, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\APPSQUADZ\anaconda3\envs\venv\Lib\site-packages\torch\utils\data\dataloader.py", line 801, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\APPSQUADZ\anaconda3\envs\venv\Lib\site-packages\torch\utils\data\_utils\fetch.py", line 57, in fetch
+    return self.collate_fn(data)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\APPSQUADZ\anaconda3\envs\venv\Lib\site-packages\torch_geometric\loader\node_loader.py", line 147, in collate_fn
+    out = self.node_sampler.sample_from_nodes(input_data)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\APPSQUADZ\anaconda3\envs\venv\Lib\site-packages\torch_geometric\sampler\neighbor_sampler.py", line 403, in sample_from_nodes
+    out = node_sample(inputs, self._sample)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\APPSQUADZ\anaconda3\envs\venv\Lib\site-packages\torch_geometric\sampler\neighbor_sampler.py", line 815, in node_sample
+    out = sample_fn(seed, seed_time)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\APPSQUADZ\anaconda3\envs\venv\Lib\site-packages\torch_geometric\sampler\neighbor_sampler.py", line 606, in _sample
+    raise ImportError(f"'{self.__class__.__name__}' requires "
+ImportError: 'NeighborSampler' requires either 'pyg-lib' or 'torch-sparse'

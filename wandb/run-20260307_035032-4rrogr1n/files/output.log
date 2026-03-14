@@ -1,0 +1,134 @@
+03:50:36  INFO
+════════════════════════════════════════════════════════════
+03:50:36  INFO    STEP 1 — Loading Dataset
+03:50:36  INFO  ════════════════════════════════════════════════════════════
+03:50:36  INFO  Loading Elliptic Bitcoin Dataset...
+03:50:41  INFO    Nodes: 203769, Edges: 234355, Labelled: 46564
+03:50:43  INFO    Graph: 203769 nodes, 234355 edges | Fraud: 4545 (2.23%) | Legit: 42019 | Train/Val/Test: 32594/6985/6985
+03:50:43  INFO
+════════════════════════════════════════════════════════════
+03:50:43  INFO    STEP 3 — Graph EDA
+03:50:43  INFO  ════════════════════════════════════════════════════════════
+03:50:43  INFO  Running graph EDA...
+
+───────────────────────────────────────────────────────
+  GRAPH STATISTICS
+───────────────────────────────────────────────────────
+  num_nodes           : 203769
+  num_edges           : 234355
+  avg_degree          : 1.15
+  max_degree          : 472
+  num_fraud           : 4545
+  num_legit           : 42019
+  num_unknown         : 157205
+  fraud_ratio         : 0.09761
+  density             : 5.644e-06
+───────────────────────────────────────────────────────
+03:50:44  INFO    Saved: degree_distribution.png
+03:50:47  INFO    Saved: feature_distributions.png
+03:50:47  INFO    Saved: class_imbalance.png
+03:50:47  INFO    Graph has 203769 nodes; sampling 2000-node subgraph for NetworkX analysis.
+
+
+  NetworkX Stats (sampled subgraph):
+    num_nodes                : 133
+    num_edges                : 98
+    num_components           : 35
+    largest_component        : 30
+    avg_clustering           : 0
+    density                  : 0.005582
+03:50:48  INFO    Saved: degree_centrality.png
+03:50:49  INFO    Saved: temporal_fraud_rate.png
+03:50:49  INFO  EDA complete. Plots saved to outputs/
+03:50:49  INFO
+════════════════════════════════════════════════════════════
+03:50:49  INFO    STEP 4 & 5 — Build Model + Train
+03:50:49  INFO  ════════════════════════════════════════════════════════════
+03:50:49  INFO  Loading Elliptic Bitcoin Dataset...
+03:50:57  INFO    Nodes: 203769, Edges: 234355, Labelled: 46564
+03:50:59  INFO    Graph: 203769 nodes, 234355 edges | Fraud: 4545 (2.23%) | Legit: 42019 | Train/Val/Test: 32594/6985/6985
+03:50:59  INFO  Device: cpu
+
+  Model: GRAPHSAGE
+  Parameters: 44,322
+  Layers: 3
+  Hidden dim: 64
+  Dropout: 0.3
+03:50:59  INFO  Class weights → legit: 0.55, fraud: 5.12
+03:50:59  INFO  Using weighted loss: [0.5540747046470642, 5.123231887817383]
+03:50:59  INFO  Imbalance strategy: weighted_loss | Oversampling: False
+03:50:59  INFO
+Starting training for 20 epochs...
+03:50:59  INFO  ─────────────────────────────────────────────────────────────────
+03:51:02  INFO  Epoch    1 | Loss: 0.4558 | F1: 0.5364 | Prec: 0.3847 | Rec: 0.8856 | AUC: 0.9503
+03:51:18  INFO  Epoch   10 | Loss: 0.1480 | F1: 0.7618 | Prec: 0.6627 | Rec: 0.8959 | AUC: 0.9810
+03:51:35  INFO  Epoch   20 | Loss: 0.1125 | F1: 0.8037 | Prec: 0.7316 | Rec: 0.8915 | AUC: 0.9836
+03:51:35  INFO    Restored best model (val F1 = 0.8037)
+03:51:35  INFO  Saved checkpoint: outputs\best_model.pt
+03:51:35  INFO
+Training complete.
+03:51:35  INFO    Best val F1:  0.8037
+03:51:35  INFO
+════════════════════════════════════════════════════════════
+03:51:35  INFO    STEP 6 — Evaluation
+03:51:35  INFO  ════════════════════════════════════════════════════════════
+03:51:35  INFO  Optimal threshold: 0.87 (val F1=0.8702)
+
+
+════════════════════════════════════════════════════════════
+  FRAUD DETECTION — TEST SET EVALUATION
+════════════════════════════════════════════════════════════
+
+  Threshold = 0.50 (default):
+    precision      : 0.7588
+    recall         : 0.9135
+    f1             : 0.8290
+    auc_roc        : 0.9855
+    auc_pr         : 0.9408
+
+  Threshold = 0.87 (optimised for F1):
+    precision      : 0.9475
+    recall         : 0.8460
+    f1             : 0.8939
+    auc_roc        : 0.9855
+    auc_pr         : 0.9408
+
+  Full Classification Report (optimised threshold):
+              precision    recall  f1-score   support
+
+       Legit       0.98      0.99      0.99      6303
+       Fraud       0.95      0.85      0.89       682
+
+    accuracy                           0.98      6985
+   macro avg       0.97      0.92      0.94      6985
+weighted avg       0.98      0.98      0.98      6985
+
+════════════════════════════════════════════════════════════
+03:51:36  INFO  Saved: roc_pr_curves.png
+03:51:36  INFO  Saved: confusion_matrix.png
+03:51:37  INFO  Saved: threshold_sweep.png
+03:51:37  INFO  Saved: training_history.png
+03:51:38  INFO
+════════════════════════════════════════════════════════════
+03:51:38  INFO    STEP 7 — Visualizations
+03:51:38  INFO  ════════════════════════════════════════════════════════════
+03:51:38  INFO
+Generating visualizations...
+03:51:41  INFO  Building 2-hop subgraph around 5 fraud seeds...
+03:51:41  INFO    Subgraph: 15 nodes, 11 edges
+03:51:41  INFO  Saved: fraud_subgraph.png
+03:51:42  INFO  Running t-SNE on 3000 node embeddings...
+Traceback (most recent call last):
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\run_pipeline.py", line 140, in <module>
+    main()
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\run_pipeline.py", line 122, in main
+    run_all_visualizations(model, data, CFG, output_dir=args.output_dir)
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\visualize.py", line 393, in run_all_visualizations
+    visualize_embeddings_tsne(model, data, cfg, output_dir=output_dir)
+  File "C:\Users\APPSQUADZ\anaconda3\envs\venv\Lib\site-packages\torch\utils\_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\APPSQUADZ\Documents\rayyan\Rayyan_projects\GNN_fraud_detection\visualize.py", line 295, in visualize_embeddings_tsne
+    tsne  = TSNE(n_components=2, perplexity=30, n_iter=1000, random_state=42)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: TSNE.__init__() got an unexpected keyword argument 'n_iter'
