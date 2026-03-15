@@ -17,6 +17,7 @@ Training features:
   - Learning rate scheduler (ReduceLROnPlateau)
   - Checkpoint saving (best val F1)
   - Epoch-level logging with metrics
+  - W&B logging (safe — silently skipped if wandb.init() not called)
 """
 
 import os
@@ -33,8 +34,6 @@ from torch_geometric.loader import NeighborLoader
 from torch_geometric.data import Data
 from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_score
 
-import wandb
-
 # Local imports
 sys.path.insert(0, os.path.dirname(__file__))
 from config import CFG, Config
@@ -47,6 +46,20 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 logger = logging.getLogger(__name__)
+
+
+# ─────────────────────────────────────────────
+# W&B SAFE LOGGER
+# ─────────────────────────────────────────────
+
+def wandb_log(metrics: dict):
+    """Log to W&B only if a run is active. Never crashes."""
+    try:
+        import wandb
+        if wandb.run is not None:
+            wandb.log(metrics)
+    except Exception:
+        pass
 
 
 # ─────────────────────────────────────────────
@@ -74,14 +87,8 @@ def build_oversampled_loader(
 ) -> NeighborLoader:
     """
     Build a NeighborLoader where fraud nodes are oversampled as seed nodes.
-
-    Instead of sampling seed nodes uniformly, we ensure `oversample_ratio`
-    fraction of seeds are fraud nodes (repeated with replacement).
-
-    This means the GNN sees more fraud neighborhoods per batch, helping it
-    learn to distinguish them despite the overall class imbalance.
     """
-    idx = mask.nonzero(as_tuple=True)[0]
+    idx    = mask.nonzero(as_tuple=True)[0]
     labels = data.y[idx].numpy()
 
     fraud_idx = idx[(labels == 1)].numpy()
@@ -90,7 +97,6 @@ def build_oversampled_loader(
     n_fraud_target = int(batch_size * oversample_ratio)
     n_legit_target = batch_size - n_fraud_target
 
-    # Resample fraud nodes with replacement if needed
     fraud_seeds = np.random.choice(fraud_idx, size=n_fraud_target * 10, replace=True)
     legit_seeds = np.random.choice(legit_idx, size=n_legit_target * 10, replace=True)
     combined    = np.concatenate([fraud_seeds, legit_seeds])
@@ -100,10 +106,10 @@ def build_oversampled_loader(
 
     return NeighborLoader(
         data,
-        num_neighbors=num_neighbors,
-        batch_size=batch_size,
-        input_nodes=input_nodes,
-        shuffle=True,
+        num_neighbors = num_neighbors,
+        batch_size    = batch_size,
+        input_nodes   = input_nodes,
+        shuffle       = True,
     )
 
 
@@ -117,10 +123,10 @@ def build_standard_loader(
     """Standard NeighborLoader without oversampling (for val/test)."""
     return NeighborLoader(
         data,
-        num_neighbors=num_neighbors,
-        batch_size=batch_size,
-        input_nodes=mask,
-        shuffle=shuffle,
+        num_neighbors = num_neighbors,
+        batch_size    = batch_size,
+        input_nodes   = mask,
+        shuffle       = shuffle,
     )
 
 
@@ -135,28 +141,18 @@ def train_one_epoch(
     criterion: nn.Module,
     device: torch.device,
 ) -> float:
-    """
-    Run one training epoch over mini-batches.
-
-    Returns average loss.
-    """
     model.train()
-    total_loss = 0.0
+    total_loss  = 0.0
     total_nodes = 0
 
     for batch in loader:
         batch = batch.to(device)
         optimizer.zero_grad()
 
-        # Forward pass: compute logits for all nodes in the batch subgraph
-        logits = model(batch.x, batch.edge_index)
-
-        # Only compute loss on the seed nodes (batch.batch_size), not the
-        # sampled neighborhood nodes. This is the PyG NeighborLoader convention.
+        logits      = model(batch.x, batch.edge_index)
         seed_logits = logits[:batch.batch_size]
         seed_labels = batch.y[:batch.batch_size]
 
-        # Skip nodes with unknown labels (-1)
         labelled_mask = seed_labels >= 0
         if labelled_mask.sum() == 0:
             continue
@@ -164,7 +160,6 @@ def train_one_epoch(
         loss = criterion(seed_logits[labelled_mask], seed_labels[labelled_mask])
         loss.backward()
 
-        # Gradient clipping prevents exploding gradients in GAT attention layers
         torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
         optimizer.step()
 
@@ -180,11 +175,6 @@ def evaluate(
     loader: NeighborLoader,
     device: torch.device,
 ) -> dict:
-    """
-    Evaluate model on a data split.
-
-    Returns dict with: loss, precision, recall, f1, auc_roc
-    """
     model.eval()
     all_logits = []
     all_labels = []
@@ -193,7 +183,6 @@ def evaluate(
         batch = batch.to(device)
         logits = model(batch.x, batch.edge_index)
 
-        # Seed nodes only
         seed_logits = logits[:batch.batch_size]
         seed_labels = batch.y[:batch.batch_size]
 
@@ -209,9 +198,8 @@ def evaluate(
 
     logits = torch.cat(all_logits, dim=0)
     labels = torch.cat(all_labels, dim=0).numpy()
-
-    probs = torch.softmax(logits, dim=-1)[:, 1].numpy()   # P(fraud)
-    preds = (probs >= 0.5).astype(int)
+    probs  = torch.softmax(logits, dim=-1)[:, 1].numpy()
+    preds  = (probs >= 0.5).astype(int)
 
     return {
         "f1":        f1_score(labels, preds, zero_division=0),
@@ -226,8 +214,6 @@ def evaluate(
 # ─────────────────────────────────────────────
 
 class EarlyStopping:
-    """Stop training when validation F1 stops improving."""
-
     def __init__(self, patience: int = 20, min_delta: float = 1e-4):
         self.patience   = patience
         self.min_delta  = min_delta
@@ -236,19 +222,15 @@ class EarlyStopping:
         self.best_state = None
 
     def step(self, score: float, model: nn.Module) -> bool:
-        """Returns True if training should stop."""
         if score > self.best_score + self.min_delta:
             self.best_score = score
             self.counter    = 0
-            # Deep-copy best model state
             self.best_state = {k: v.clone() for k, v in model.state_dict().items()}
         else:
             self.counter += 1
-
         return self.counter >= self.patience
 
     def restore_best(self, model: nn.Module):
-        """Load the best checkpoint back into the model."""
         if self.best_state is not None:
             model.load_state_dict(self.best_state)
             logger.info(f"  Restored best model (val F1 = {self.best_score:.4f})")
@@ -269,20 +251,21 @@ def train(cfg: Config = CFG):
 
     # ── 2. Build model ─────────────────────────────────────────────────────────
     in_channels = data.x.shape[1]
-    model = build_model(cfg, in_channels).to(device)
+    model       = build_model(cfg, in_channels).to(device)
 
-    # ── 3. Loss function with class weighting ──────────────────────────────────
+    # ── 3. Loss function ───────────────────────────────────────────────────────
     strategy = cfg.data.imbalance_strategy
 
     if strategy in ("weighted_loss", "both"):
         class_weights = compute_class_weights(data).to(device)
-        criterion = nn.CrossEntropyLoss(weight=class_weights)
+        criterion     = nn.CrossEntropyLoss(weight=class_weights)
+        logger.info(f"Class weights → legit: {class_weights[0]:.2f}, fraud: {class_weights[1]:.2f}")
         logger.info(f"Using weighted loss: {class_weights.tolist()}")
     else:
         criterion = nn.CrossEntropyLoss()
         logger.info("Using unweighted loss")
 
-    # ── 4. Optimiser + LR Scheduler ───────────────────────────────────────────
+    # ── 4. Optimiser + Scheduler ───────────────────────────────────────────────
     optimizer = optim.AdamW(
         model.parameters(),
         lr           = cfg.train.lr,
@@ -329,7 +312,8 @@ def train(cfg: Config = CFG):
         record = {"epoch": epoch, "train_loss": train_loss, **val_metrics}
         history.append(record)
 
-        wandb.log({
+        # W&B logging — safe, skipped if no active run
+        wandb_log({
             "epoch":         epoch,
             "train_loss":    train_loss,
             "val_f1":        val_metrics["f1"],
@@ -338,6 +322,7 @@ def train(cfg: Config = CFG):
             "val_auc_roc":   val_metrics["auc_roc"],
         })
 
+        # Console logging
         if epoch % cfg.log_every == 0 or epoch == 1:
             logger.info(
                 f"Epoch {epoch:4d} | Loss: {train_loss:.4f} | "
@@ -347,6 +332,7 @@ def train(cfg: Config = CFG):
                 f"AUC: {val_metrics['auc_roc']:.4f}"
             )
 
+        # Early stopping check
         if early_stop.step(val_metrics["f1"], model):
             logger.info(f"\nEarly stopping at epoch {epoch} (best val F1={early_stop.best_score:.4f})")
             break
@@ -364,14 +350,12 @@ def train(cfg: Config = CFG):
     }, checkpoint_path)
     logger.info(f"Saved checkpoint: {checkpoint_path}")
 
-    # Save training history to JSON for plotting
     history_path = os.path.join(cfg.train.checkpoint_dir, "history.json")
     with open(history_path, "w") as f:
         json.dump(history, f, indent=2)
 
     logger.info("\nTraining complete.")
     logger.info(f"  Best val F1:  {early_stop.best_score:.4f}")
-
 
     return model, data, history
 
@@ -392,13 +376,12 @@ if __name__ == "__main__":
     parser.add_argument("--lr",       type=float, default=0.001)
     args = parser.parse_args()
 
-    # Override config from CLI args
-    CFG.model.architecture          = args.model
-    CFG.train.epochs                = args.epochs
-    CFG.data.dataset                = args.dataset
-    CFG.data.imbalance_strategy     = args.strategy
-    CFG.model.hidden_channels       = args.hidden
-    CFG.model.num_layers            = args.layers
-    CFG.train.lr                    = args.lr
+    CFG.model.architecture      = args.model
+    CFG.train.epochs            = args.epochs
+    CFG.data.dataset            = args.dataset
+    CFG.data.imbalance_strategy = args.strategy
+    CFG.model.hidden_channels   = args.hidden
+    CFG.model.num_layers        = args.layers
+    CFG.train.lr                = args.lr
 
     train(CFG)
